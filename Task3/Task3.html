@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Frontend Task</title>
+</head>
+
+<body>
+    <div id="output4"></div>
+    <div id="output1"></div>
+    <div id="output2"></div>
+    <div id="output3"></div>
+
+    <script>
+        const postData = async () => {
+            const phonenumber = 7820076209; // Replace with actual phone number
+            const url = `https://chimpu.xyz/api/post.php`; // Ensure the correct endpoint URL
+            console.log(`phonenumber:${phonenumber}`)
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify({phonenumber}),
+                });
+                console.log("response", response.headers.get("Content-Type"))
+                const responseData=await response.json()
+                console.log("responseData",responseData)
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+
+                const headers = response.headers;
+
+                // Access specific header values
+                const contentType = headers['content-type'];
+
+                // Do something with the header values
+                console.log('Content-Type:', contentType);
+                
+
+                document.getElementById('output1').textContent = `Content-Type  : ${ response.headers.get("Content-Type")}`;
+                document.getElementById('output2').textContent = `Content Length  : ${ response.headers.get("content-length")}`;
+                document.getElementById('output4').textContent = `Data received  : ${ responseData.msg}`;
+            } catch (error) {
+
+                
+                console.error('There was a problem with the fetch operation:', error);
+            }
+        };
+
+        postData();
+    </script>
+</body>
+
+</html>
